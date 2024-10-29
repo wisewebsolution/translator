@@ -1,0 +1,27 @@
+2024-10-29 12:59:01,316 - root - CRITICAL - Application crash
+Traceback (most recent call last):
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 569, in <module>
+    main()
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 493, in main
+    st.session_state.processor = TranslationProcessor()
+                                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 211, in __init__
+    self.token_manager = TokenManager()
+                         ^^^^^^^^^^^^^^
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 53, in __init__
+    self.tokenizer = anthropic.Tokenizer()
+                     ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'anthropic' has no attribute 'Tokenizer'. Did you mean: '_tokenizers'?
+2024-10-29 13:28:57,208 - root - ERROR - Translation error: 'Anthropic' object has no attribute 'messages'
+2024-10-29 13:28:57,209 - root - ERROR - Application error
+Traceback (most recent call last):
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 526, in main
+    translation = st.session_state.processor.process_batch(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Karol\Desktop\translatecz\app.py", line 246, in process_batch
+    response = self.client.messages.create(
+               ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Anthropic' object has no attribute 'messages'
+2024-10-29 13:31:45,580 - root - ERROR - Translation error: 'Anthropic' object has no attribute 'messages'
+2024-10-29 13:47:47,996 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2024-10-29 13:55:33,985 - httpx - INFO - HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"

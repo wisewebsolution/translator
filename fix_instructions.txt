@@ -1,0 +1,45 @@
+1. **Issue Description**:
+   - **Location**: TranslationProcessor class, translate_text method
+   - **Explanation**: Temperature is hardcoded to 0.3, needs to be configurable
+   - **Recommendation**: Add temperature parameter to translate_text method and pass it through from the UI
+
+2. **Issue Description**:
+   - **Location**: TranslationProcessor class, translate_text method
+   - **Explanation**: Max tokens is hardcoded to 2000, needs to be configurable
+   - **Recommendation**: Add max_tokens parameter to translate_text method and pass it through from the UI
+
+3. **Issue Description**:
+   - **Location**: TranslationProcessor class, translate_text method
+   - **Explanation**: System prompt is fixed, needs custom prompt capability
+   - **Recommendation**: Add custom_prompt parameter to allow users to override default system prompt
+
+4. **Issue Description**:
+   - **Location**: main function, UI section
+   - **Explanation**: Missing advanced settings UI for temperature, max tokens, and custom prompt
+   - **Recommendation**: Add expander section "⚙️ Advanced Settings" with:
+     - Temperature slider (0.0 to 1.0, default 0.3)
+     - Max tokens input (100 to 4096, default 2000)
+     - Custom prompt text area
+
+5. **Issue Description**:
+   - **Location**: TranslationProcessor class, translate_text method
+   - **Explanation**: Missing product naming functionality
+   - **Recommendation**: Add use_product_naming parameter and alternate system prompt for product naming:
+     ```python
+     system_prompt = custom_prompt if custom_prompt else (
+         "You are a creative product naming specialist. Generate memorable product names (2-4 words) "
+         "that are unique, market-ready, and easy to pronounce for the target market."
+         if use_product_naming else
+         f"You are a professional translator. Translate the following text to {target_lang}. "
+         "Preserve all formatting and special characters."
+     )
+     ```
+
+6. **Issue Description**:
+   - **Location**: main function, UI section
+   - **Explanation**: Missing UI control for product naming feature
+   - **Recommendation**: Add checkbox for "Use Product Naming Pro" with help text:
+     "Generate creative product names instead of direct translation"
+
+Please run these changes with:
+aider --model anthropic/claude-3-5-sonnet-20241022 --no-pretty --message-file fix_instructions.txt app.py
