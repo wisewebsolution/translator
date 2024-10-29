@@ -95,6 +95,36 @@ def main():
                     ['Czech', 'English']
                 )
             
+            # Advanced Settings
+            with st.expander("⚙️ Advanced Settings"):
+                temperature = st.slider(
+                    "Temperature",
+                    min_value=0.0,
+                    max_value=1.0,
+                    value=0.3,
+                    step=0.1,
+                    help="Higher values make output more creative, lower values more deterministic"
+                )
+                
+                max_tokens = st.number_input(
+                    "Max Tokens",
+                    min_value=100,
+                    max_value=4096,
+                    value=2000,
+                    help="Maximum number of tokens in the response"
+                )
+                
+                custom_prompt = st.text_area(
+                    "Custom System Prompt",
+                    help="Override default system prompt (leave empty for default)",
+                    placeholder="Enter custom prompt here..."
+                )
+                
+                use_product_naming = st.checkbox(
+                    "Use Product Naming Pro",
+                    help="Generate creative product names instead of direct translation"
+                )
+            
             # Test tłumaczenia
             if st.button("🔬 Test translation"):
                 if columns_to_translate:
