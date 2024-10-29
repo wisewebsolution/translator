@@ -27,13 +27,23 @@ class TranslationProcessor:
         self.client = anthropic.Anthropic(api_key=api_key)
         self.MODEL = "claude-3-5-sonnet-20241022"
         
-    def translate_text(self, text: str, target_lang: str) -> str:
+    def translate_text(self, text: str, target_lang: str, temperature: float = 0.3, 
+                      max_tokens: int = 2000, custom_prompt: str = None, 
+                      use_product_naming: bool = False) -> str:
         try:
+            system_prompt = custom_prompt if custom_prompt else (
+                "You are a creative product naming specialist. Generate memorable product names (2-4 words) "
+                "that are unique, market-ready, and easy to pronounce for the target market."
+                if use_product_naming else
+                f"You are a professional translator. Translate the following text to {target_lang}. "
+                "Preserve all formatting and special characters."
+            )
+            
             message = self.client.messages.create(
                 model=self.MODEL,
-                max_tokens=2000,
-                temperature=0.3,
-                system=f"You are a professional translator. Translate the following text to {target_lang}. Preserve all formatting and special characters.",
+                max_tokens=max_tokens,
+                temperature=temperature,
+                system=system_prompt,
                 messages=[{
                     "role": "user",
                     "content": text
@@ -92,7 +102,12 @@ def main():
                     with st.spinner("Translating test text..."):
                         try:
                             translation = st.session_state.processor.translate_text(
-                                test_text, target_language
+                                test_text, 
+                                target_language,
+                                temperature=temperature,
+                                max_tokens=max_tokens,
+                                custom_prompt=custom_prompt if custom_prompt.strip() else None,
+                                use_product_naming=use_product_naming
                             )
                             
                             st.write("Test results:")
@@ -125,7 +140,12 @@ def main():
                         df[f"{col}_translated"] = ""
                         for idx, text in enumerate(df[col]):
                             translation = st.session_state.processor.translate_text(
-                                str(text), target_language
+                                str(text), 
+                                target_language,
+                                temperature=temperature,
+                                max_tokens=max_tokens,
+                                custom_prompt=custom_prompt if custom_prompt.strip() else None,
+                                use_product_naming=use_product_naming
                             )
                             df.at[idx, f"{col}_translated"] = translation
                             
